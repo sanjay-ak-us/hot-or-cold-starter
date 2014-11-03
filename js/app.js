@@ -27,10 +27,18 @@ $(document).ready(function(){
 
 });
 
+/*
+Start a new game!
+*/
 function newGame(){
 	secret = Math.floor(Math.random()*100);
+	guessNumber = 0;
+	resetGame();
 };
 
+/*
+Check if the guessed number is hot or cold
+*/
 function hotOrCold(){
 	var guess = $('#userGuess').val();
 	if(isNaN(guess))
@@ -59,13 +67,11 @@ function hotOrCold(){
 	$('#guessList').append($(guessTemp));
 	//reset the game
 	if(color == 'CORRECT')
-		resetGame();
+		newGame();
 };
 
 function resetGame()
 {
-	$('.new').click();
-	guessNumber = 0;
 	$('#guessList').empty();
 	$('#count').text(guessNumber);
 };
