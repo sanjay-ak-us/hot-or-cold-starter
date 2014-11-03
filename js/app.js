@@ -60,7 +60,7 @@ function hotOrCold(){
 	else if((guess - secret) == 0)
 	{
 		color = 'CORRECT';
-		alert('Hurray! You guess was correct');
+		alert('Hurray! Your guess was correct');
 	}
 	var guessTemp = "<li>"+guess+": "+color+"</li>";
 	//alert(guessTemp);
