@@ -1,6 +1,7 @@
 var secret;
 var guessNumber = 0;
-
+var previousGuess = 0;
+var originalFeedback = 'Make your Guess!';
 $(document).ready(function(){
 	
 	/*--- Display information modal box ---*/
@@ -32,7 +33,6 @@ Start a new game!
 */
 function newGame(){
 	secret = Math.floor(Math.random()*100);
-	guessNumber = 0;
 	resetGame();
 };
 
@@ -49,29 +49,51 @@ function hotOrCold(){
 	}
 	guess = +guess;
 	guessNumber++;
-	//alert(secret +' : '+guess +' : '+guessNumber);
+	alert(secret +' : '+guess +' : '+guessNumber);
 	//update the guess# count
 	$('#count').text(guessNumber);
 	$('#userGuess').val('');
-	//get guess color: HOT if guess is greater than secret number
-	var color = 'COLD';
-	if((guess - secret) > 0)
-		color = 'HOT';
-	else if((guess - secret) == 0)
+	
+	//get guess color
+	var color = getColor(guess);
+	$('#feedback').text(color);
+	previousGuess = guess;
+};
+
+//process first guess
+function getColor(guess)
+{
+	var diff = Math.abs((secret - guess));
+	if(diff == 0)
+		return 'Hurray! Your guess is correct!';
+	if(guessNumber == 1)
 	{
-		color = 'CORRECT';
-		alert('Hurray! Your guess was correct');
+		if(diff >= 50)
+			return 'Ice cold: Further than 50';
+		else if(diff >= 30)
+			return 'Cold: Further than 30';
+		else if(diff >= 20)
+			return 'Warm: Within 30';
+		else if(diff >= 10)
+			return 'Hot: Within 20';
+		else
+			return 'Very Hot: Within 10';
 	}
-	var guessTemp = "<li>"+guess+": "+color+"</li>";
-	//alert(guessTemp);
-	$('#guessList').append($(guessTemp));
-	//reset the game
-	if(color == 'CORRECT')
-		newGame();
+	else
+	{
+		var newDiff = Math.abs((secret-previousGuess)) - diff;
+		if(newDiff >0)
+			return 'Hotter';
+		else
+			return 'Colder';
+	}
 };
 
 function resetGame()
 {
 	$('#guessList').empty();
-	$('#count').text(guessNumber);
+	$('#count').text('0');
+	$('#feedback').text(originalFeedback);
+	guessNumber = 0;
+	previousGuess = 0;
 };
