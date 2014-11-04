@@ -49,7 +49,7 @@ function hotOrCold(){
 	}
 	guess = +guess;
 	guessNumber++;
-	alert(secret +' : '+guess +' : '+guessNumber);
+	//alert(secret +' : '+guess +' : '+guessNumber);
 	//update the guess# count
 	$('#count').text(guessNumber);
 	$('#userGuess').val('');
